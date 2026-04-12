@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register - Lumière Entertainment{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Create an Account</h3>
+                </div>
+                
+                <div class="card-body">
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ flash_error }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+
+                    {% for flash_success in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ flash_success }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(registrationForm, {
+                        'attr': {'novalidate': 'novalidate'}
+                    }) }}
+                    
+                    {{ form_errors(registrationForm) }}
+                    
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.username, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(registrationForm.username) }}
+                        <div class="form-text">We'll never share your email with anyone else.</div>
+                        {{ form_errors(registrationForm.username) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.plainPassword.first, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.first) }}
+                        <div class="form-text">
+                            Password must be at least 6 characters and contain at least one letter and one number.
+                        </div>
+                        {{ form_errors(registrationForm.plainPassword.first) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.plainPassword.second, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.second) }}
+                        {{ form_errors(registrationForm.plainPassword.second) }}
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        {{ form_widget(registrationForm.agreeTerms) }}
+                        {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+                    
+                    {# CSRF token - this is the correct way to render it #}
+                    {{ form_row(registrationForm._token) }}
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            Register
+                        </button>
+                    </div>
+                    
+                    {{ form_end(registrationForm) }}
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <p class="mb-0">Already have an account? 
+                            <a href="{{ path('login') }}" class="text-decoration-none">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

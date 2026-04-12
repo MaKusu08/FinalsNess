@@ -1,0 +1,320 @@
+{% extends 'base3.html.twig' %}
+
+{% block title %}Lumière Entertainment — Private Cinema Experience{% endblock %}
+
+{% block body %}
+
+{# ══════════════════════════════════════════
+   SECTION 1: LANDING PAGE / HERO
+══════════════════════════════════════════ #}
+<section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines" aria-hidden="true">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <line x1="720" y1="0" x2="720" y2="900" stroke="#C9A84C" stroke-width="0.5"/>
+            <line x1="0" y1="450" x2="1440" y2="450" stroke="#C9A84C" stroke-width="0.5"/>
+            <circle cx="720" cy="450" r="220" stroke="#C9A84C" stroke-width="0.5" fill="none"/>
+            <circle cx="720" cy="450" r="380" stroke="#C9A84C" stroke-width="0.3" fill="none"/>
+            <polygon points="720,140 980,610 460,610" stroke="#C9A84C" stroke-width="0.3" fill="none"/>
+        </svg>
+    </div>
+    <div class="hero-badge">Est. 2024 &nbsp;·&nbsp; Private Cinema Experience</div>
+    <h1 class="hero-title">Cinema<br><em>Redefined</em></h1>
+    <p class="hero-sub">Where every frame is felt &nbsp;·&nbsp; Lumière Private Cine Rooms</p>
+    <div class="hero-btns">
+        <a class="btn-primary" href="#contact-us">Book a Room</a>
+        <a class="btn-ghost" href="#our-things">Explore Rooms</a>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+{# ── Marquee Strip ── #}
+<div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track">
+        {% set items = ['4K Laser Projection','Dolby Atmos Sound','Velvet Recliner Seating','Private Screening','Full Concessions','Custom Ambiance'] %}
+        {% for _ in 1..2 %}
+            {% for item in items %}
+                <div class="marquee-item">{{ item }}<div class="m-dot"></div></div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{# ══════════════════════════════════════════
+   SECTION 2: ABOUT US / ABOUT THE BUSINESS
+══════════════════════════════════════════ #}
+<section id="about" class="section" style="background:var(--dark-2)">
+    <div class="inner">
+        <div class="about-grid">
+
+            <div class="about-visual">
+                <div class="about-frame">
+                    <div class="vc tl"></div><div class="vc tr"></div>
+                    <div class="vc bl"></div><div class="vc br"></div>
+                </div>
+                <div class="about-logo-big" aria-hidden="true">
+                    <em>Lumière</em>
+                    Entertainment
+                </div>
+            </div>
+
+            <div>
+                <p class="section-label">About Us</p>
+                <h2 class="section-title">We are <em>Lumière</em><br>Entertainment</h2>
+                <div class="gold-line"></div>
+                <p class="section-body">
+                    Lumière Entertainment is a premier private cinema experience designed for those who believe that stories deserve to be felt — not just watched. We offer fully private, fully immersive cine rooms equipped with the finest technology, curated for intimate gatherings, celebrations, date nights, and everything in between.
+                </p>
+                <p class="section-body" style="margin-top:1rem">
+                    Founded with a passion for cinema and a commitment to luxury, we bring the magic of the big screen into an intimate space — entirely yours for the evening.
+                </p>
+                <div class="about-values">
+                    <div class="value-card">
+                        <h4>Our Vision</h4>
+                        <p>To redefine how people experience film — personally, privately, and powerfully.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>Our Mission</h4>
+                        <p>Delivering world-class cinematic experiences in the most intimate of settings.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>Quality</h4>
+                        <p>We never compromise. Every detail — from audio to seating — is curated for excellence.</p>
+                    </div>
+                    <div class="value-card">
+                        <h4>Experience</h4>
+                        <p>From booking to last credit, every moment is designed to be unforgettable.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   SECTION 3: BANNER
+══════════════════════════════════════════ #}
+<section id="banner">
+    <div class="banner-bg"></div>
+    <div class="banner-border" aria-hidden="true"></div>
+    <div class="banner-inner">
+        <div class="banner-eyebrow">The Lumière Promise</div>
+        <h2 class="banner-title">Your Night.<br><em>Your Screen.</em><br>Your Story.</h2>
+        <p class="banner-sub">
+            Step beyond the ordinary multiplex. At Lumière, we transform a simple movie night into a cinematic event — intimate, immersive, and entirely yours. Whether it's a romantic evening, a birthday celebration, or a corporate premiere, we set the perfect scene.
+        </p>
+        <div class="hero-btns" style="justify-content:center">
+            <a class="btn-primary" href="#contact-us">Reserve Your Room</a>
+            <a class="btn-ghost" href="#products">View Packages</a>
+        </div>
+        <div class="banner-strip">
+            {% for stat in stats %}
+                <div class="bstrip-item">
+                    <div class="bstrip-num">{{ stat.num }}</div>
+                    <div class="bstrip-lbl">{{ stat.label }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   SECTION 4: OUR THINGS
+══════════════════════════════════════════ #}
+<section id="our-things" class="section">
+    <div class="inner">
+        <div class="things-header">
+            <p class="section-label">Our Things</p>
+            <h2 class="section-title">What makes us <em>different</em></h2>
+            <p class="section-body" style="max-width:50ch;margin:0 auto;text-align:center">
+                Three signature rooms, each crafted with a distinct identity. Every space tells a different story.
+            </p>
+        </div>
+        <div class="things-grid">
+            {% for room in rooms %}
+                <article class="thing-card {{ room.class }}">
+                    <div class="t-bg"></div>
+                    <div class="t-glyph" aria-hidden="true">{{ room.number }}</div>
+                    <div class="t-overlay"></div>
+                    <div class="t-info">
+                        <div class="t-tag">{{ room.tag }}</div>
+                        <div class="t-name">{{ room.name }}</div>
+                        <div class="t-desc">{{ room.desc }}</div>
+                    </div>
+                    {% if room.badge %}
+                        <div class="t-badge">{{ room.badge }}</div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   SECTION 5: PRODUCTS
+══════════════════════════════════════════ #}
+<section id="products" class="section" style="background:var(--dark-2)">
+    <div class="inner">
+        <div class="products-header">
+            <p class="section-label">Products &amp; Packages</p>
+            <h2 class="section-title">Curated <em>packages</em> for every occasion</h2>
+            <p class="section-body" style="max-width:50ch;margin:0 auto;text-align:center">
+                From intimate date nights to grand premieres, we have a package built for you.
+            </p>
+        </div>
+        <div class="products-grid">
+            {% for product in products %}
+                <article class="product-card">
+                    <div class="product-thumb {{ product.class }}" aria-hidden="true">{{ product.icon }}</div>
+                    <div class="product-body">
+                        <div class="product-tag">{{ product.tag }}</div>
+                        <div class="product-name">{{ product.name }}</div>
+                        <div class="product-desc">{{ product.desc }}</div>
+                        <div class="product-price">
+                            {{ product.price }} <small>{{ product.unit }}</small>
+                        </div>
+                        <button class="product-btn" type="button">Add to Booking</button>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   SECTION 6: ADMINS
+══════════════════════════════════════════ #}
+<section id="admins" class="section">
+    <div class="inner">
+        <div class="admins-header">
+            <p class="section-label">Meet the Team</p>
+            <h2 class="section-title">The people behind <em>Lumière</em></h2>
+            <p class="section-body" style="max-width:48ch;margin:0 auto;text-align:center">
+                Our dedicated team works behind the scenes — and sometimes in front of the screen — to make every visit extraordinary.
+            </p>
+        </div>
+        <div class="admins-grid">
+            {% for admin in admins %}
+                <article class="admin-card">
+                    <div class="admin-avatar {{ admin.class }}" aria-hidden="true">{{ admin.initial }}</div>
+                    <div class="admin-name">{{ admin.name }}</div>
+                    <div class="admin-role">{{ admin.role }}</div>
+                    <div class="admin-bio">{{ admin.bio }}</div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ══════════════════════════════════════════
+   SECTION 7: CONTACT US
+══════════════════════════════════════════ #}
+<section id="contact-us" class="section" style="background:var(--dark-2)">
+    <div class="inner">
+        <div class="contact-grid">
+
+            <div>
+                <p class="section-label">Contact Us</p>
+                <h2 class="section-title">Let's plan your<br><em>perfect</em> evening</h2>
+                <div class="gold-line"></div>
+                <p class="section-body">
+                    Have questions or ready to book? Reach out and our team will get back to you within the hour. We're here to make every detail perfect.
+                </p>
+                <div class="contact-info">
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">📍</div>
+                        <div class="cinfo-text">
+                            <h5>Location</h5>
+                            <p>123 Cinema Street, Cebu City<br>Central Visayas, Philippines</p>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">📞</div>
+                        <div class="cinfo-text">
+                            <h5>Phone</h5>
+                            <p><a href="tel:+639123456789" style="color:inherit">+63 912 345 6789</a><br>Available daily, 9am – 11pm</p>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">✉</div>
+                        <div class="cinfo-text">
+                            <h5>Email</h5>
+                            <p>
+                                <a href="mailto:hello@lumiereentertainment.ph" style="color:inherit">hello@lumiereentertainment.ph</a><br>
+                                <a href="mailto:bookings@lumiereentertainment.ph" style="color:inherit">bookings@lumiereentertainment.ph</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">🕐</div>
+                        <div class="cinfo-text">
+                            <h5>Hours</h5>
+                            <p>Monday – Friday: 10:00 AM – 12:00 MN<br>Saturday – Sunday: 9:00 AM – 2:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form" action="{{ path('app_booking') }}" method="POST" novalidate>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="first_name">First Name</label>
+                        <input class="form-input" type="text" id="first_name" name="first_name" placeholder="Juan" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="last_name">Last Name</label>
+                        <input class="form-input" type="text" id="last_name" name="last_name" placeholder="dela Cruz" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input class="form-input" type="email" id="email" name="email" placeholder="juan@email.com" required/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input class="form-input" type="tel" id="phone" name="phone" placeholder="+63 9XX XXX XXXX"/>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="date">Preferred Date</label>
+                        <input class="form-input" type="date" id="date" name="date" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="time_slot">Time Slot</label>
+                        <select class="form-select" id="time_slot" name="time_slot">
+                            {% for slot in time_slots %}
+                                <option value="{{ slot }}">{{ slot }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="room">Select Room</label>
+                    <select class="form-select" id="room" name="room">
+                        {% for room in rooms %}
+                            <option value="{{ room.name }}">{{ room.name }} — {{ room.tag }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Message / Special Requests</label>
+                    <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your occasion or any special requests..."></textarea>
+                </div>
+                <button class="form-submit" type="submit">Send Booking Request</button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
