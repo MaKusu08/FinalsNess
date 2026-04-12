@@ -1,0 +1,110 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0f0f0f;
+        color: #fff;
+    }
+
+    .page-container {
+        max-width: 500px;  /* Smaller container for form */
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .card {
+        background: #1e1e1e;
+        border-radius: 12px;
+        padding: 30px 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #ffa600;
+        margin-bottom: 6px;
+    }
+
+    select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #333;
+        background: #0f0f0f;
+        color: #fff;
+        font-size: 0.95rem;
+    }
+
+    select:focus {
+        border-color: #ffa600;
+        outline: none;
+        box-shadow: 0 0 5px #ffa600;
+    }
+
+    .btn-update {
+        background: #ffa600;
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-update:hover {
+        background: #1976d2;
+    }
+
+    .btn-back {
+        background: #9c27b0;
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+</style>
+
+<div class="page-container">
+    <div class="card">
+        <h1>Edit User: {{ user.username }}</h1>
+
+        <form method="post">
+            <div>
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                    <option value="ROLE_ADMIN" {{ 'ROLE_ADMIN' in user.roles ? 'selected' }}>Admin</option>
+                    <option value="ROLE_STAFF" {{ 'ROLE_STAFF' in user.roles ? 'selected' }}>Staff</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-update">Update</button>
+        </form>
+
+        <a href="{{ path('admin_users') }}" class="btn-back">Back to List</a>
+    </div>
+</div>
+{% endblock %}

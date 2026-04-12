@@ -1,0 +1,94 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Create Room{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background: #0f0f0f;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: #1e1e1e;
+        padding: 35px;
+        border-radius: 14px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+        color: #ccc;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background: #2a2a2a;
+        color: #fff;
+        margin-bottom: 18px;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 5px #ffa600;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .btn-save {
+        background: #ffa600;
+        color: #000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-save:hover {
+        background: #000;
+        color: #ffa600;
+        border: 1px solid #ffa600;
+    }
+
+    .btn-back {
+        color: #ffa600;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="form-container">
+    <h1>➕ Create New Room</h1>
+
+    {{ include('admin_rooms/_form.html.twig') }}
+
+    <div class="actions">
+        <a href="{{ path('app_admin_rooms_index') }}" class="btn-back">← Back to list</a>
+    </div>
+</div>
+{% endblock %}

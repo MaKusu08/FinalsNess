@@ -1,0 +1,99 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Add New Movie{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0f0f0f;
+        color: #fff;
+    }
+
+    .form-wrapper {
+        max-width: 700px;
+        margin: 50px auto;
+        background: #1a1a1a;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #ffa600;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: none;
+        background: #2a2a2a;
+        color: #fff;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 5px #ffa600;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .btn-primary {
+        background: #ffa600;
+        color: #000;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background: #000;
+        color: #ffa600;
+        border: 1px solid #ffa600;
+    }
+
+    .btn-secondary {
+        background: #2a2a2a;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background: #ffa600;
+        color: #000;
+    }
+</style>
+
+<div class="form-wrapper">
+    <h1>🎬 Add New Movie</h1>
+
+    {{ include('admin_movies/_form.html.twig') }}
+
+    <div class="btn-group">
+        <a href="{{ path('app_admin_movies_index') }}" class="btn btn-secondary">
+            ← Back to list
+        </a>
+    </div>
+</div>
+{% endblock %}

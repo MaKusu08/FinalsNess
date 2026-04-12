@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: lel
+      MYSQL_DATABASE: finals
+      MYSQL_USER: Kusgan
+      MYSQL_PASSWORD: 09612842754*
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynet
+ 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: Kusgan
+      PMA_PASSWORD: 09612842754*
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - mynet
+
+volumes:
+  mysql_data:
+
+networks:
+  mynet:
+    driver: bridge

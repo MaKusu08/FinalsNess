@@ -1,0 +1,13 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit AdminMovies{% endblock %}
+
+{% block body %}
+    <h1>Edit AdminMovies</h1>
+
+    {{ include('admin_movies/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_movies_index') }}">back to list</a>
+
+    {{ include('admin_movies/_delete_form.html.twig') }}
+{% endblock %}

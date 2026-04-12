@@ -1,0 +1,85 @@
+<style>
+    .form-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 6px;
+        font-size: 0.85rem;
+        color: #ccc;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background: #2a2a2a;
+        color: #fff;
+        font-size: 0.95rem;
+    }
+
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="time"] {
+        color-scheme: dark;
+    }
+
+    input:focus,
+    select:focus {
+        outline: none;
+        box-shadow: 0 0 6px #ffa600;
+    }
+
+    .btn-submit {
+        margin-top: 25px;
+        background: #ffa600;
+        color: #000;
+        border: none;
+        padding: 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+    }
+
+    .btn-submit:hover {
+        background: #000;
+        color: #ffa600;
+        border: 1px solid #ffa600;
+    }
+</style>
+
+{{ form_start(form) }}
+
+<div class="form-wrapper">
+
+    {% for field in form %}
+        {% if field.vars.name != '_token' %}
+            <div class="form-group">
+                {{ form_label(field) }}
+                {{ form_widget(field) }}
+                {{ form_errors(field) }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+</div>
+
+<button class="btn-submit">
+    {{ button_label|default('Save') }}
+</button>
+
+{{ form_widget(form._token) }}
+
+{{ form_end(form) }}
+

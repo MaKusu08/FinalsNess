@@ -1,0 +1,169 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Admin Reservations{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0f0f0f;
+        color: #fff;
+    }
+
+    .page-container {
+        padding: 40px;
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 25px;
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-create {
+        background: #ffa600;
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .btn-create:hover {
+        background: #000;
+        color: #ffa600;
+        border: 1px solid #ffa600;
+    }
+
+    .card {
+        background: #1e1e1e;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 14px;
+        border-bottom: 1px solid #333;
+        text-align: left;
+        font-size: 0.9rem;
+    }
+
+    th {
+        background: #111;
+        color: #ffa600;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background: #262626;
+    }
+
+    .badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+
+    .paid { background: #4caf50; color: #000; }
+    .pending { background: #ff9800; color: #000; }
+    .unpaid { background: #f44336; color: #fff; }
+
+    .actions a {
+        margin-right: 6px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-show { background: #9c27b0; color: #fff; }
+    .btn-edit { background: #2196f3; color: #fff; }
+
+    .empty {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+    }
+</style>
+
+<div class="page-container">
+
+    <div class="top-bar">
+        <h1>Reservations</h1>
+        <a href="{{ path('app_admin_reservations_new') }}" class="btn-create">
+            + New Reservation
+        </a>
+    </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Contact</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Guests</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for reservation in admin_reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.customerName }}</td>
+                    <td>{{ reservation.contactNumber }}</td>
+                    <td>{{ reservation.reservationDate|date('Y-m-d') }}</td>
+                    <td>
+                        {{ reservation.startTime|date('H:i') }}
+                        -
+                        {{ reservation.endTime|date('H:i') }}
+                    </td>
+                    <td>{{ reservation.guests }}</td>
+                    <td>₱{{ reservation.totalAmount|number_format(2) }}</td>
+                    <td>
+                        <span class="badge {{ reservation.paymentStatus|lower }}">
+                            {{ reservation.paymentStatus }}
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <a href="{{ path('app_admin_reservations_show', {id: reservation.id}) }}" class="btn-show">Show</a>
+                        <a href="{{ path('app_admin_reservations_edit', {id: reservation.id}) }}" class="btn-edit">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9" class="empty">
+                        No reservations found
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

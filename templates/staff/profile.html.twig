@@ -1,0 +1,117 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block body %}
+<style>
+    .profile-container {
+        max-width: 480px;
+        margin: 60px auto;
+        background: #1c1c1c;
+        padding: 35px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .profile-container h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #ffa600;
+        font-weight: 600;
+    }
+
+    .profile-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 0;
+        border-bottom: 1px solid #333;
+        font-size: 0.9rem;
+    }
+
+    .profile-row:last-child {
+        border-bottom: none;
+    }
+
+    .profile-label {
+        color: #aaa;
+    }
+
+    .profile-value {
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .role-badge {
+        background: #ffa600;
+        color: #000;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .profile-actions {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 26px;
+        background: #ffa600;
+        color: #000;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn:hover {
+        background: #ffb733;
+    }
+
+    .profile-footer {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #888;
+    }
+</style>
+
+<div class="profile-container">
+    <h1>My Profile</h1>
+
+    <div class="profile-row">
+        <span class="profile-label">Username</span>
+        <span class="profile-value">{{ user.username }}</span>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Role</span>
+        <span class="profile-value">
+            <span class="role-badge">
+                {{ user.roles|join(', ') }}
+            </span>
+        </span>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Account Created</span>
+        <span class="profile-value">
+            {{ user.createdAt|date('F d, Y') }}
+        </span>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{{ path('staff_change_password') }}" class="btn">
+            Change Password
+        </a>
+    </div>
+
+    <div class="profile-footer">
+        Manage your account security and information.
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Create User{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0f0f0f;
+        color: #fff;
+    }
+
+    .page-container {
+        max-width: 500px;  /* Compact container */
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .card {
+        background: #1e1e1e;
+        border-radius: 12px;
+        padding: 30px 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    input, select {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #333;
+        background: #0f0f0f;
+        color: #fff;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+
+    input:focus, select:focus {
+        border-color: #ffa600;
+        outline: none;
+        box-shadow: 0 0 5px #ffa600;
+    }
+
+    button {
+        background: #4caf50;
+        color: #000;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #43a047;
+    }
+
+    .btn-back {
+        background: #9c27b0;
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 15px;
+        text-align: center;
+    }
+</style>
+
+<div class="page-container">
+    <div class="card">
+        <h1>Create User</h1>
+
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <select name="role">
+                <option value="ROLE_ADMIN">Admin</option>
+                <option value="ROLE_STAFF">Staff</option>
+            </select>
+            <button type="submit">Create</button>
+        </form>
+
+        <a href="{{ path('admin_users') }}" class="btn-back">Back to List</a>
+    </div>
+</div>
+{% endblock %}

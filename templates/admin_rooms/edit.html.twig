@@ -1,0 +1,122 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit Room{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background: #0f0f0f;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .form-container {
+        max-width: 650px;
+        margin: 60px auto;
+        background: #1e1e1e;
+        padding: 35px;
+        border-radius: 14px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+        color: #ccc;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background: #2a2a2a;
+        color: #fff;
+        margin-bottom: 18px;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 5px #ffa600;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 25px;
+    }
+
+    .btn-update {
+        background: #ffa600;
+        color: #000;
+        border: none;
+        padding: 12px 26px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-update:hover {
+        background: #000;
+        color: #ffa600;
+        border: 1px solid #ffa600;
+    }
+
+    .btn-back {
+        color: #ffa600;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .btn-back:hover {
+        text-decoration: underline;
+    }
+
+    .delete-box {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        text-align: center;
+    }
+
+    .btn-delete {
+        background: #ff4d4d;
+        color: #fff;
+        border: none;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-delete:hover {
+        background: #000;
+        color: #ff4d4d;
+        border: 1px solid #ff4d4d;
+    }
+</style>
+
+<div class="form-container">
+    <h1>✏️ Edit Room</h1>
+
+    {{ include('admin_rooms/_form.html.twig') }}
+
+    <div class="actions">
+        <a href="{{ path('app_admin_rooms_index') }}" class="btn-back">← Back to list</a>
+    </div>
+
+    <div class="delete-box">
+        {{ include('admin_rooms/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

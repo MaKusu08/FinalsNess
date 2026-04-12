@@ -1,0 +1,125 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<div class="Content">
+
+    <h1>Dashboard</h1>
+
+    {# ================= ADMIN VIEW ================= #}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <div class="stats">
+            <div class="card">
+                <h2>{{ userCount }}</h2>
+                <p>Total Users</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ logCount }}</h2>
+                <p>Activity Logs</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ movieCount }}</h2>
+                <p>Total Movies</p>
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="{{ path('admin_users') }}">Manage Users</a>
+            <a href="{{ path('admin_logs') }}">View Logs</a>
+        </div>
+
+        <h2 style="margin-top:40px;">Recent Activity Logs</h2>
+
+        <div class="card" style="padding:0;">
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.username }}</td>
+                        <td>{{ log.role }}</td>
+                        <td>{{ log.action }}</td>
+                        <td>{{ log.createdAt|date('Y-m-d H:i') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="log-empty">No logs found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+
+
+    {# ================= STAFF VIEW ================= #}
+    {% if is_granted('ROLE_STAFF') and not is_granted('ROLE_ADMIN') %}
+
+        <div class="cards">
+            <div class="card">
+                <h2>{{ totalReservations }}</h2>
+                <p>Total Reservations</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ pendingPayments }}</h2>
+                <p>Pending Payments</p>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h2>Recent Reservations</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Guests</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for reservation in reservations %}
+                    <tr>
+                        <td>{{ reservation.customerName }}</td>
+                        <td>{{ reservation.reservationDate|date('Y-m-d') }}</td>
+                        <td>
+                            {{ reservation.startTime|date('H:i') }} -
+                            {{ reservation.endTime|date('H:i') }}
+                        </td>
+                        <td>{{ reservation.guests }}</td>
+                        <td>
+                            <span class="badge {{ reservation.paymentStatus|lower }}">
+                                {{ reservation.paymentStatus }}
+                            </span>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="log-empty">No reservations</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

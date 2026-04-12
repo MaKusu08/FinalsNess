@@ -1,0 +1,42 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}AdminMovies{% endblock %}
+
+{% block body %}
+    <h1>AdminMovies</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ admin_movie.id }}</td>
+            </tr>
+            <tr>
+                <th>Movie_Name</th>
+                <td>{{ admin_movie.MovieName }}</td>
+            </tr>
+            <tr>
+                <th>Movie_Description</th>
+                <td>{{ admin_movie.MovieDescription }}</td>
+            </tr>
+            <tr>
+                <th>Movie_Image</th>
+                <td>{{ admin_movie.MovieImage }}</td>
+            </tr>
+            <tr>
+                <th>Movie_Duration</th>
+                <td>{{ admin_movie.MovieDuration }}</td>
+            </tr>
+            <tr>
+                <th>Movie_Price</th>
+                <td>{{ admin_movie.MoviePrice }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_movies_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_movies_edit', {'id': admin_movie.id}) }}">edit</a>
+
+    {{ include('admin_movies/_delete_form.html.twig') }}
+{% endblock %}

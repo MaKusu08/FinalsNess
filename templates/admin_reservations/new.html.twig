@@ -1,0 +1,61 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New Reservation{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0f0f0f;
+        color: #fff;
+    }
+
+    .page-container {
+        padding: 40px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    h1 {
+        color: #ffa600;
+        margin-bottom: 25px;
+    }
+
+    .card {
+        background: #1e1e1e;
+        border-radius: 14px;
+        padding: 30px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.6);
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #ffa600;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back-link:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="page-container">
+
+    <h1>Create New Reservation</h1>
+
+    <div class="card">
+        {{ include('admin_reservations/_form.html.twig', {
+            button_label: 'Create Reservation'
+        }) }}
+    </div>
+
+    <a href="{{ path('app_admin_reservations_index') }}" class="back-link">
+        ← Back to list
+    </a>
+
+</div>
+{% endblock %}
