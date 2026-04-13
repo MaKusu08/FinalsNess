@@ -4,6 +4,15 @@ home:
     defaults:
         route: login
 
+# These routes are automatically handled by your SecurityController annotations
+# but you can explicitly define them if needed:
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+logout:
+    path: /logout
+
 controllers:
     resource: ../src/Controller/
     type: attribute

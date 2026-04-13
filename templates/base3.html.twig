@@ -1,41 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Lumière Entertainment — Premier private cinema experience in Cebu City, Philippines."/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>{% block title %}Lumière Entertainment{% endblock %}</title>
-
-    {# Google Fonts #}
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet"/>
-
-    {# Main stylesheet #}
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
-
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
 
-    {# ── NAVIGATION ── #}
-    <nav>
-        <a class="nav-logo" href="#hero"><em>Lumière</em> Entertainment</a>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#banner">Experience</a></li>
-            <li><a href="#our-things">Rooms</a></li>
-            <li><a href="#products">Products</a></li>
-            <li><a href="#admins">Team</a></li>
-            <li><a href="#contact-us">Contact</a></li>
-        </ul>
-        <a class="nav-cta" href="#contact-us">Book Now</a>
-        <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
-
-    {# Flash Messages #}
+    {# ── Flash Messages ── #}
     {% for type, messages in app.flashes %}
         {% for message in messages %}
             <div class="flash flash--{{ type }}">
@@ -45,59 +20,91 @@
         {% endfor %}
     {% endfor %}
 
-    {# ── PAGE CONTENT ── #}
+    {# ── Navigation with Login Button ── #}
+    <nav>
+        <a href="{{ path('home') }}" class="nav-logo">
+            <em>Lumière</em> Entertainment
+        </a>
+        
+        <button class="nav-hamburger" aria-label="Menu" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
+        
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#our-things">Rooms</a></li>
+            <li><a href="#products">Packages</a></li>
+            <li><a href="#admins">Team</a></li>
+            <li><a href="#contact-us">Contact</a></li>
+            {# LOGIN BUTTON - Redirects to your login page #}
+            <li><a href="{{ path('login') }}" class="nav-login-btn">🔑 Sign In</a></li>
+        </ul>
+        
+        <a href="#contact-us" class="nav-cta">Book Now</a>
+    </nav>
+
+    {# ── Main Content ── #}
     {% block body %}{% endblock %}
 
-    {# ── FOOTER / CONTACTS SECTION ── #}
-    <footer id="contacts">
-        <div class="contacts-top inner">
+    {# ── Footer ── #}
+    <footer>
+        <div class="contacts-top">
             <div class="contacts-brand">
-                <a class="nav-logo" href="#hero"><em>Lumière</em> Entertainment</a>
-                <p>A private cinema experience crafted for those who believe stories deserve to be felt — not just watched.</p>
+                <a href="{{ path('home') }}" class="nav-logo" style="display:inline-block">
+                    <em>Lumière</em> Entertainment
+                </a>
+                <p>Where every frame is felt — Private Cinema Experiences in Cebu.</p>
                 <div class="social-links">
-                    <a class="social-link" href="#" aria-label="Facebook">f</a>
-                    <a class="social-link" href="#" aria-label="LinkedIn">in</a>
-                    <a class="social-link" href="#" aria-label="Instagram">ig</a>
-                    <a class="social-link" href="#" aria-label="YouTube">yt</a>
+                    <a href="#" class="social-link">ig</a>
+                    <a href="#" class="social-link">fb</a>
+                    <a href="#" class="social-link">tw</a>
                 </div>
             </div>
             <div class="contacts-col">
-                <h5>Navigate</h5>
+                <h5>Explore</h5>
                 <ul>
                     <li><a href="#about">About Us</a></li>
-                    <li><a href="#banner">Experience</a></li>
                     <li><a href="#our-things">Our Rooms</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#admins">Our Team</a></li>
-                </ul>
-            </div>
-            <div class="contacts-col">
-                <h5>Rooms</h5>
-                <ul>
-                    <li><a href="#our-things">The Rouge</a></li>
-                    <li><a href="#our-things">The Noir</a></li>
-                    <li><a href="#our-things">The Grand</a></li>
                     <li><a href="#products">Packages</a></li>
+                    <li><a href="#admins">Team</a></li>
                 </ul>
             </div>
             <div class="contacts-col">
-                <h5>Get in Touch</h5>
+                <h5>Support</h5>
                 <ul>
-                    <li><a href="tel:+639123456789">+63 912 345 6789</a></li>
-                    <li><a href="mailto:hello@lumiereentertainment.ph">hello@lumiereentertainment.ph</a></li>
-                    <li><a href="#contact-us">123 Cinema Street, Cebu City</a></li>
-                    <li><a href="#contact-us">Book Now</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#contact-us">Contact</a></li>
+                </ul>
+            </div>
+            <div class="contacts-col">
+                <h5>Legal</h5>
+                <ul>
+                    <li><a href="#">© 2024 Lumière</a></li>
+                    <li><a href="#">All Rights Reserved</a></li>
                 </ul>
             </div>
         </div>
-        <div class="contacts-bottom inner">
-            <span>© {{ "now"|date("Y") }} Lumière Entertainment. All rights reserved.</span>
-            <span>Private Cinema · Cebu City, Philippines</span>
+        <div class="contacts-bottom">
+            <span>Lumière Entertainment — Private Cinema Experience</span>
+            <span>Est. 2024 · Cebu City</span>
         </div>
     </footer>
 
-    {# Main JS #}
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.nav-hamburger');
+            navLinks.classList.toggle('open');
+            hamburger.classList.toggle('open');
+        }
+
+        // Close flash messages after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.flash').forEach(flash => flash.remove());
+        }, 5000);
+    </script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>
