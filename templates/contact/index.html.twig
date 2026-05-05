@@ -1,0 +1,103 @@
+{% extends 'base3.html.twig' %}
+
+{% block title %}Contact & Book — Lumière Entertainment{% endblock %}
+
+{% block body %}
+
+<section id="contact-us" class="section" style="background:var(--dark-2)">
+    <div class="inner">
+        <div class="contact-grid">
+            <div>
+                <p class="section-label">Contact Us</p>
+                <h2 class="section-title">Let's plan your<br><em>perfect</em> evening</h2>
+                <div class="gold-line"></div>
+                <p class="section-body">
+                    Have questions or ready to book? Reach out and our team will get back to you within the hour. We're here to make every detail perfect.
+                </p>
+                <div class="contact-info">
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">📍</div>
+                        <div class="cinfo-text">
+                            <h5>Location</h5>
+                            <p>123 Kagawasan Avenue, Dumaguete City<br>Central Visayas, Philippines</p>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">📞</div>
+                        <div class="cinfo-text">
+                            <h5>Phone</h5>
+                            <p><a href="tel:+639612842754" style="color:inherit">+63 961 284 2754</a><br>Available daily, 9am – 11pm</p>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">✉</div>
+                        <div class="cinfo-text">
+                            <h5>Email</h5>
+                            <p>
+                                <a href="mailto:hello@lumiereentertainment.ph" style="color:inherit">lumiereentertainment@gmail.com</a><br>
+                                <a href="mailto:bookings@lumiereentertainment.ph" style="color:inherit">lumiereentertainment@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon" aria-hidden="true">🕐</div>
+                        <div class="cinfo-text">
+                            <h5>Hours</h5>
+                            <p>Monday – Friday: 10:00 AM – 12:00 MN<br>Saturday – Sunday: 9:00 AM – 2:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form" action="{{ path('app_booking') }}" method="POST" novalidate>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="first_name">First Name</label>
+                        <input class="form-input" type="text" id="first_name" name="first_name" placeholder="Juan" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="last_name">Last Name</label>
+                        <input class="form-input" type="text" id="last_name" name="last_name" placeholder="dela Cruz" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input class="form-input" type="email" id="email" name="email" placeholder="juan@email.com" required/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input class="form-input" type="tel" id="phone" name="phone" placeholder="+63 9XX XXX XXXX"/>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="date">Preferred Date</label>
+                        <input class="form-input" type="date" id="date" name="date" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="time_slot">Time Slot</label>
+                        <select class="form-select" id="time_slot" name="time_slot">
+                            {% for slot in time_slots %}
+                                <option value="{{ slot }}">{{ slot }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="room">Select Room</label>
+                    <select class="form-select" id="room" name="room">
+                        {% for room in rooms %}
+                            <option value="{{ room.name }}">{{ room.name }} — {{ room.tag }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Message / Special Requests</label>
+                    <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your occasion or any special requests..."></textarea>
+                </div>
+                <button class="form-submit" type="submit">Send Booking Request</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

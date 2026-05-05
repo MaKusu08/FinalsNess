@@ -16,3 +16,23 @@ logout:
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+# config/routes.yaml
+api_login_check:
+    path: /api/login_check
+    methods: ['POST']
+
+api_register:
+    path: /api/register
+    controller: App\Controller\Api\AuthController::register
+    methods: ['POST']
+
+api_verify_email:
+    path: /api/verify/{token}
+    controller: App\Controller\Api\AuthController::verifyEmail
+    methods: ['GET']
+
+api_profile:
+    path: /api/profile
+    controller: App\Controller\Api\ProfileController::index
+    methods: ['GET']

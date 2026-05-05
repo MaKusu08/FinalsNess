@@ -4,35 +4,36 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\EmailVerifier;
+use App\Service\EmailVerificationService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
-    {
+    private EntityManagerInterface $entityManager;
+    private EmailVerificationService $emailVerificationService;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        EmailVerificationService $emailVerificationService
+    ) {
+        $this->entityManager = $entityManager;
+        $this->emailVerificationService = $emailVerificationService;
     }
 
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        Security $security,
-        EntityManagerInterface $entityManager
+        Security $security
     ): Response {
-        // If user is already logged in, redirect to homepage
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('home');
         }
 
         $user = new User();
@@ -43,36 +44,28 @@ class RegistrationController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // Encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             
-            // Set default role if not set
             if (empty($user->getRoles())) {
                 $user->setRoles(['ROLE_USER']);
             }
             
-            // Set initial verification status
             $user->setIsVerified(false);
-            
-            // Set active status
             $user->setIsActive(true);
+            
+            // Set email as username if not set
+            if (!$user->getUsername() && $user->getEmail()) {
+                $user->setUsername($user->getEmail());
+            }
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
-            // Generate a signed URL and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('rokuromarcus19@gmail.com', 'Notifier'))
-                    ->to((string) $user->getUsername())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            // Send verification email
+            $this->emailVerificationService->sendVerificationEmail($user, false);
 
-            // Add flash message
             $this->addFlash('success', 'Registration successful! Please check your email to verify your account.');
             
-            // Redirect to login page
             return $this->redirectToRoute('login');
         }
 
@@ -81,22 +74,45 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    #[Route('/verify/email/{token}', name: 'app_verify_email')]
+    public function verifyUserEmail(string $token): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        // Validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            /** @var User $user */
-            $user = $this->getUser();
-            $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-            return $this->redirectToRoute('app_register');
+        $result = $this->emailVerificationService->verifyEmail($token);
+        
+        if ($result['success']) {
+            $this->addFlash('success', $result['message']);
+            return $this->redirectToRoute('login');
         }
+        
+        $this->addFlash('error', $result['message']);
+        return $this->redirectToRoute('app_register');
+    }
 
-        $this->addFlash('success', 'Your email address has been verified. You can now log in.');
+    #[Route('/resend-verification', name: 'app_resend_verification')]
+    public function resendVerification(Request $request): Response
+    {
+        $email = $request->get('email');
+        
+        if (!$email) {
+            $this->addFlash('error', 'Please provide an email address.');
+            return $this->redirectToRoute('login');
+        }
+        
+        $user = $this->emailVerificationService->getUserByEmail($email);
+        
+        if (!$user) {
+            $this->addFlash('error', 'No user found with this email address.');
+            return $this->redirectToRoute('login');
+        }
+        
+        if ($user->isVerified()) {
+            $this->addFlash('info', 'This email is already verified.');
+            return $this->redirectToRoute('login');
+        }
+        
+        $this->emailVerificationService->resendVerificationEmail($user, false);
+        $this->addFlash('success', 'Verification email sent! Please check your inbox.');
+        
         return $this->redirectToRoute('login');
     }
 }

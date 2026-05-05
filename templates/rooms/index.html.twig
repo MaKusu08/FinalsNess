@@ -1,0 +1,36 @@
+{% extends 'base3.html.twig' %}
+
+{% block title %}Our Rooms — Lumière Entertainment{% endblock %}
+
+{% block body %}
+
+<section id="our-things" class="section">
+    <div class="inner">
+        <div class="things-header">
+            <p class="section-label">Our Rooms</p>
+            <h2 class="section-title">What makes us <em>different</em></h2>
+            <p class="section-body" style="max-width:50ch;margin:0 auto;text-align:center">
+                Three signature rooms, each crafted with a distinct identity. Every space tells a different story.
+            </p>
+        </div>
+        <div class="things-grid">
+            {% for room in rooms %}
+                <article class="thing-card {{ room.class }}">
+                    <div class="t-bg"></div>
+                    <div class="t-glyph" aria-hidden="true">{{ room.number }}</div>
+                    <div class="t-overlay"></div>
+                    <div class="t-info">
+                        <div class="t-tag">{{ room.tag }}</div>
+                        <div class="t-name">{{ room.name }}</div>
+                        <div class="t-desc">{{ room.desc }}</div>
+                    </div>
+                    {% if room.badge %}
+                        <div class="t-badge">{{ room.badge }}</div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

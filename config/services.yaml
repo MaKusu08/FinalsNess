@@ -1,25 +1,27 @@
 # yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-# See also https://symfony.com/doc/current/service_container/import.html
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     movies_upload_dir: '%kernel.project_dir%/public/uploads/images'
+    brevo.sender_email: '%env(BREVO_SENDER_EMAIL)%'
+    brevo.sender_name: '%env(BREVO_SENDER_NAME)%'
 
 services:
-     _defaults:
+    _defaults:
         autowire: true
         autoconfigure: true
+        # BINDINGS - This tells Symfony what values to inject for these string parameters
+        bind:
+            string $senderEmail: '%brevo.sender_email%'
+            string $senderName: '%brevo.sender_name%'
 
-    # make all classes in src/ available as services
-     App\:
+    # No need to explicitly define services anymore - bindings will handle them
+    App\:
         resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
 
-    # make controllers properly autowired with service arguments
-     App\Controller\:
+    App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-

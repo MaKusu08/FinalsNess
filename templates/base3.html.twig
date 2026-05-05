@@ -20,7 +20,7 @@
         {% endfor %}
     {% endfor %}
 
-    {# ── Navigation with Login Button ── #}
+    {# ── Navigation with updated routes ── #}
     <nav>
         <a href="{{ path('home') }}" class="nav-logo">
             <em>Lumière</em> Entertainment
@@ -31,22 +31,21 @@
         </button>
         
         <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#our-things">Rooms</a></li>
-            <li><a href="#products">Packages</a></li>
-            <li><a href="#admins">Team</a></li>
-            <li><a href="#contact-us">Contact</a></li>
-            {# LOGIN BUTTON - Redirects to your login page #}
+            <li><a href="{{ path('app_about') }}">About</a></li>
+            <li><a href="{{ path('app_rooms') }}">Rooms</a></li>
+            <li><a href="{{ path('app_packages') }}">Packages</a></li>
+            <li><a href="{{ path('app_team') }}">Team</a></li>
+            <li><a href="{{ path('app_contact') }}">Contact</a></li>
             <li><a href="{{ path('login') }}" class="nav-login-btn">🔑 Sign In</a></li>
         </ul>
         
-        <a href="#contact-us" class="nav-cta">Book Now</a>
+        <a href="{{ path('app_contact') }}" class="nav-cta">Book Now</a>
     </nav>
 
     {# ── Main Content ── #}
     {% block body %}{% endblock %}
 
-    {# ── Footer ── #}
+    {# ── Footer with updated routes ── #}
     <footer>
         <div class="contacts-top">
             <div class="contacts-brand">
@@ -63,10 +62,10 @@
             <div class="contacts-col">
                 <h5>Explore</h5>
                 <ul>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#our-things">Our Rooms</a></li>
-                    <li><a href="#products">Packages</a></li>
-                    <li><a href="#admins">Team</a></li>
+                    <li><a href="{{ path('app_about') }}">About Us</a></li>
+                    <li><a href="{{ path('app_rooms') }}">Our Rooms</a></li>
+                    <li><a href="{{ path('app_packages') }}">Packages</a></li>
+                    <li><a href="{{ path('app_team') }}">Team</a></li>
                 </ul>
             </div>
             <div class="contacts-col">
@@ -75,7 +74,7 @@
                     <li><a href="#">FAQ</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#contact-us">Contact</a></li>
+                    <li><a href="{{ path('app_contact') }}">Contact</a></li>
                 </ul>
             </div>
             <div class="contacts-col">
@@ -100,7 +99,6 @@
             hamburger.classList.toggle('open');
         }
 
-        // Close flash messages after 5 seconds
         setTimeout(() => {
             document.querySelectorAll('.flash').forEach(flash => flash.remove());
         }, 5000);

@@ -2,7 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Security\GoogleAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -12,9 +18,15 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // If user is already logged in, redirect to admin dashboard
+        // If user is already logged in, redirect based on role
         if ($this->getUser()) {
-            return $this->redirectToRoute('admin_dashboard');
+            $user = $this->getUser();
+            if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                return $this->redirectToRoute('admin_dashboard');
+            } elseif (in_array('ROLE_STAFF', $user->getRoles())) {
+                return $this->redirectToRoute('staff_dashboard');
+            }
+            return $this->redirectToRoute('homepage');
         }
 
         // Get the login error if there is one

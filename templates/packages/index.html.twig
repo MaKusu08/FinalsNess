@@ -1,0 +1,35 @@
+{% extends 'base3.html.twig' %}
+
+{% block title %}Packages — Lumière Entertainment{% endblock %}
+
+{% block body %}
+
+<section id="products" class="section" style="background:var(--dark-2)">
+    <div class="inner">
+        <div class="products-header">
+            <p class="section-label">Products &amp; Packages</p>
+            <h2 class="section-title">Curated <em>packages</em> for every occasion</h2>
+            <p class="section-body" style="max-width:50ch;margin:0 auto;text-align:center">
+                From intimate date nights to grand premieres, we have a package built for you.
+            </p>
+        </div>
+        <div class="products-grid">
+            {% for product in products %}
+                <article class="product-card">
+                    <div class="product-thumb {{ product.class }}" aria-hidden="true">{{ product.icon }}</div>
+                    <div class="product-body">
+                        <div class="product-tag">{{ product.tag }}</div>
+                        <div class="product-name">{{ product.name }}</div>
+                        <div class="product-desc">{{ product.desc }}</div>
+                        <div class="product-price">
+                            {{ product.price }} <small>{{ product.unit }}</small>
+                        </div>
+                        <button class="product-btn" type="button" onclick="window.location.href='{{ path('app_contact') }}'">Add to Booking</button>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

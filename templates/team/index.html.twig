@@ -1,0 +1,29 @@
+{% extends 'base3.html.twig' %}
+
+{% block title %}Our Team — Lumière Entertainment{% endblock %}
+
+{% block body %}
+
+<section id="admins" class="section">
+    <div class="inner">
+        <div class="admins-header">
+            <p class="section-label">Meet the Team</p>
+            <h2 class="section-title">The people behind <em>Lumière</em></h2>
+            <p class="section-body" style="max-width:48ch;margin:0 auto;text-align:center">
+                Our dedicated team works behind the scenes — and sometimes in front of the screen — to make every visit extraordinary.
+            </p>
+        </div>
+        <div class="admins-grid">
+            {% for admin in admins %}
+                <article class="admin-card">
+                    <div class="admin-avatar {{ admin.class }}" aria-hidden="true">{{ admin.initial }}</div>
+                    <div class="admin-name">{{ admin.name }}</div>
+                    <div class="admin-role">{{ admin.role }}</div>
+                    <div class="admin-bio">{{ admin.bio }}</div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
