@@ -1,62 +1,61 @@
-FROM php:8.3-fpm as builder
+FROM php:8.3-fpm
 
-WORKDIR /app
-
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    curl \
-    nodejs \
-    npm \
-    && docker-php-ext-install pdo pdo_mysql \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-COPY composer.json composer.lock ./
-
-RUN composer install --no-interaction --no-scripts --optimize-autoloader
-
-COPY . .
-
-RUN if [ ! -f /app/.env ]; then echo "APP_ENV=${APP_ENV:-prod}\nAPP_DEBUG=${APP_DEBUG:-false}\nAPP_SECRET=${APP_SECRET:-ChangeMe}\n" > /app/.env; fi
-
-# Now run post-install scripts after app code is available
-RUN composer install --no-interaction --optimize-autoloader --no-ansi || true
-RUN php bin/console importmap:install --no-interaction
-
-RUN php bin/console cache:warmup --env=prod --no-debug || true
-
-FROM php:8.3-fpm as runtime
-
-WORKDIR /app
-
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     nginx \
     curl \
-    && docker-php-ext-install pdo pdo_mysql \
+    git \
+    unzip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app /app
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo_mysql \
+    mysqli \
+    gd
 
-RUN mkdir -p /app/var && \
-    chown -R www-data:www-data /app && \
-    chmod -R 755 /app && \
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /app
+
+# Copy application files
+COPY . .
+
+# Set production environment BEFORE composer install
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+
+# Install dependencies
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader --no-dev
+
+# Set proper permissions
+RUN chown -R www-data:www-data /app/var /app/public && \
     chmod -R 775 /app/var
 
-COPY nginx-main.conf /etc/nginx/nginx.conf
+# Copy nginx config
+COPY config/nginx/railway.conf /etc/nginx/nginx.conf
 
-RUN rm -rf /etc/nginx/conf.d/* /etc/nginx/sites-enabled /etc/nginx/sites-available
-COPY nginx.conf /etc/nginx/conf.d/symfony.conf
+# Copy and set up entrypoint
+COPY src/docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Create required directories
+RUN mkdir -p /var/log/nginx /var/run/php-fpm
 
-HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost/ || exit 1
+# Test nginx config
+RUN nginx -t
 
-EXPOSE 80
+# Expose port
+EXPOSE 8080
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8080/ || exit 1
+
+CMD ["/entrypoint.sh"]
