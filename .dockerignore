@@ -1,8 +1,5 @@
-# IMPORTANT: Include .env file first!
-!.env
-!.env.prod
-
-# Environment files - ignore only local/dev versions
+# Environment files - ONLY ignore local/dev versions
+# DO NOT ignore .env and .env.prod - these are needed for the build!
 .env.local
 .env.*.local
 .env.dev
