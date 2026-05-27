@@ -82,7 +82,7 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/symfony.ini
 FROM nginx:mainline-alpine AS nginx
 
 # Install supervisor and netcat for health checks
-RUN apk add --no-cache supervisor netcat-openbsd
+RUN apk add --no-cache supervisor netcat-openbsd curl bash
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
