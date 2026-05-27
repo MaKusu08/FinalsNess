@@ -1,0 +1,52 @@
+# Git
+.git/
+.gitattributes
+
+# Docker
+Dockerfile
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Symfony specific
+var/cache/*
+var/log/*
+var/sessions/*
+var/lock/*
+
+# Composer
+composer.phar
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache
+
+# Coverage reports
+coverage/
+clover.xml
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build tools
+webpack.config.js
+postcss.config.js
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Backup files
+*.bak
+*.old
+*.swp
