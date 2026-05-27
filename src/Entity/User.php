@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     // ===================== NEW FIELDS FOR EMAIL VERIFICATION =====================
-    
+
     #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
     private ?string $email = null;
 
@@ -58,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $tokenExpiresAt = null;
 
     // ===================== NEW FIELDS FOR GOOGLE LOGIN =====================
-    
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $googleId = null;
 
@@ -103,10 +103,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
+    // ===================== ROLE SYSTEM (UPDATED ONLY HERE) =====================
+
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+
+        // DEFAULT ROLE FOR ALL USERS (CUSTOMER)
+        $roles[] = 'ROLE_CUSTOMER';
+
         return array_unique($roles);
     }
 
@@ -115,6 +120,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
         return $this;
     }
+
+    // ===================== PASSWORD =====================
 
     public function getPassword(): ?string
     {
@@ -126,6 +133,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
         return $this;
     }
+
+    public function eraseCredentials(): void
+    {
+        // clear sensitive temp data if needed
+    }
+
+    // ===================== STATUS =====================
 
     public function isActive(): bool
     {
@@ -143,17 +157,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function eraseCredentials(): void
-    {
-        // Clear temporary sensitive data if needed
-    }
-
-    // ===================== ROOMS RELATION =====================
+    // ===================== ROOMS =====================
 
     public function getRooms(): Collection
     {
         return $this->rooms;
     }
+
+    // ===================== VERIFICATION =====================
 
     public function isVerified(): bool
     {
@@ -166,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // ===================== EMAIL & VERIFICATION METHODS =====================
+    // ===================== EMAIL =====================
 
     public function getEmail(): ?string
     {
@@ -176,10 +187,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(?string $email): self
     {
         $this->email = $email;
-        // Also update username to be email if not set or for consistency
+
         if ($email && !$this->username) {
             $this->username = $email;
         }
+
         return $this;
     }
 
@@ -210,10 +222,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->tokenExpiresAt) {
             return true;
         }
+
         return new \DateTimeImmutable() > $this->tokenExpiresAt;
     }
 
-    // ===================== GOOGLE LOGIN METHODS =====================
+    // ===================== GOOGLE LOGIN =====================
 
     public function getGoogleId(): ?string
     {
@@ -272,7 +285,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFullName(): string
     {
-        return trim($this->firstName . ' ' . $this->lastName);
+        return trim(($this->firstName ?? '') . ' ' . ($this->lastName ?? ''));
     }
 
     public function isGoogleUser(): bool

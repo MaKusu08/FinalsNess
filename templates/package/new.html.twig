@@ -1,0 +1,27 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New Package{% endblock %}
+
+{% block body %}
+
+<h1>Create Package</h1>
+
+<div class="table-card">
+
+    <h2 style="color:#ffa600;">Add New Package</h2>
+
+    {{ include('package/_form.html.twig') }}
+
+    <br>
+
+    <div style="margin-top:15px;">
+
+        <a href="{{ path('app_package_index') }}" class="action-btn">
+            ← Back to List
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

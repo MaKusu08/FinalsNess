@@ -1,0 +1,29 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit Package{% endblock %}
+
+{% block body %}
+
+<h1>Edit Package</h1>
+
+<div class="table-card">
+
+    <h2 style="color:#ffa600;">Update Package</h2>
+
+    {{ include('package/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <br>
+
+    <div style="display:flex; gap:10px; margin-top:15px;">
+
+        <a href="{{ path('app_package_index') }}" class="action-btn">
+            ← Back
+        </a>
+
+        {{ include('package/_delete_form.html.twig') }}
+
+    </div>
+
+</div>
+
+{% endblock %}

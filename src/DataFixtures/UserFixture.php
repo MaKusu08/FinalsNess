@@ -18,7 +18,9 @@ class UserFixture extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        // =========================
         // ADMIN USER
+        // =========================
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setRoles(['ROLE_ADMIN']);
@@ -27,7 +29,9 @@ class UserFixture extends Fixture
         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'admin123'));
         $manager->persist($admin);
 
+        // =========================
         // STAFF USER
+        // =========================
         $staff = new User();
         $staff->setUsername('staff');
         $staff->setRoles(['ROLE_STAFF']);
@@ -36,9 +40,23 @@ class UserFixture extends Fixture
         $staff->setPassword($this->passwordHasher->hashPassword($staff, 'staff123'));
         $manager->persist($staff);
 
+        // =========================
+        // CUSTOMER USER (NEW)
+        // =========================
+        $customer = new User();
+        $customer->setUsername('customer');
+        $customer->setRoles(['ROLE_CUSTOMER']);
+        $customer->setIsActive(true);
+        $customer->setIsVerified(true);
+        $customer->setPassword($this->passwordHasher->hashPassword($customer, 'customer123'));
+        $manager->persist($customer);
+
         $manager->flush();
-        
+
         // Debug output
-        echo "Users created! Admin ID: " . $admin->getId() . ", Staff ID: " . $staff->getId() . "\n";
+        echo "Users created!\n";
+        echo "Admin ID: " . $admin->getId() . "\n";
+        echo "Staff ID: " . $staff->getId() . "\n";
+        echo "Customer ID: " . $customer->getId() . "\n";
     }
 }

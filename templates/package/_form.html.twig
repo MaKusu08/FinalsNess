@@ -1,0 +1,37 @@
+{{ form_start(form) }}
+
+<div class="table-card">
+
+    <h2>{{ button_label|default('Create Package') }}</h2>
+
+    <div style="margin-bottom:15px;">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+
+    <div style="margin-bottom:15px;">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+
+    <div style="display:flex; gap:15px;">
+        <div style="flex:1;">
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price) }}
+        </div>
+
+        <div style="flex:1;">
+            {{ form_label(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+    </div>
+
+    <br>
+
+    <button class="action-btn" style="border:none; cursor:pointer;">
+        Save Package
+    </button>
+
+</div>
+
+{{ form_end(form) }}

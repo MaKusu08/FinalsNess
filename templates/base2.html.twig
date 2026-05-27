@@ -293,6 +293,11 @@ tr:hover td {
         Rooms
     </a>
 
+    <a href="{{ path('app_package_index') }}"
+       class="{{ app.request.get('_route') starts with 'app_package' ? 'active' : '' }}">
+       Packages
+    </a>
+
     
     {# ADMIN ONLY #}
     {% if is_granted('ROLE_ADMIN') %}
