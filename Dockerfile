@@ -40,9 +40,37 @@ RUN composer install --no-dev --no-autoloader --no-scripts --no-progress --no-in
 # Copy application files
 COPY . .
 
-# Run composer install again with full dependencies
-RUN composer install --no-dev --no-progress --no-interaction && \
+# Create a temporary .env file for build process only
+RUN if [ ! -f .env ]; then \
+        echo "APP_ENV=prod" > .env && \
+        echo "APP_DEBUG=0" >> .env && \
+        echo "APP_SECRET=build-temp-secret" >> .env && \
+        echo "DATABASE_URL=sqlite:///:memory:" >> .env; \
+    else \
+        # Backup original .env and modify for build
+        cp .env .env.backup && \
+        sed -i 's/APP_ENV=.*/APP_ENV=prod/' .env && \
+        sed -i 's/APP_DEBUG=.*/APP_DEBUG=0/' .env && \
+        sed -i 's/DATABASE_URL=.*/DATABASE_URL="sqlite:\/\/\/:memory:"/' .env; \
+    fi
+
+# Set production environment variables for the build
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+ENV DATABASE_URL="sqlite:///:memory:"
+
+# Run composer install with scripts disabled first
+RUN composer install --no-dev --no-progress --no-interaction --no-scripts && \
     composer dump-autoload --optimize
+
+# Manually warm up the cache
+RUN php bin/console cache:warmup --env=prod --no-debug || true
+
+# Restore original .env if it was backed up
+RUN if [ -f .env.backup ]; then mv .env.backup .env; fi
+
+# Remove the build .env to prevent accidental use
+RUN rm -f .env
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/symfony/var /var/www/symfony/public

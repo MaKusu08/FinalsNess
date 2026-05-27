@@ -1,12 +1,24 @@
-# Git
+# Environment files
+.env.local
+.env.*.local
+.env.dev
+.env.prod.local
+
+# Keep .env for build (but don't commit secrets to git)
+!.env
+
+# Version control
 .git/
+.gitignore
 .gitattributes
 
-# Docker
+# Docker files
 Dockerfile
 .dockerignore
+docker-compose.yml
+docker-compose.override.yml
 
-# IDE
+# IDE files
 .vscode/
 .idea/
 *.sublime-*
@@ -16,37 +28,21 @@ Dockerfile
 Thumbs.db
 
 # Symfony specific
-var/cache/*
-var/log/*
-var/sessions/*
-var/lock/*
+var/cache/
+var/log/
+var/sessions/
 
 # Composer
 composer.phar
-
-# PHPUnit
 .phpunit.result.cache
-.phpunit.cache
 
-# Coverage reports
+# Tests
+tests/
 coverage/
-clover.xml
+phpunit.xml.dist
 
-# Package managers
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# Build tools
-webpack.config.js
-postcss.config.js
+# Node modules
+node_modules/
 
 # Documentation
-docs/
-*.md
-!README.md
-
-# Backup files
-*.bak
-*.old
-*.swp
+README.md
