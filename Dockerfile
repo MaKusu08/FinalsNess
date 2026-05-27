@@ -1,5 +1,5 @@
 # Stage 1: PHP-FPM with extensions
-FROM php:8.3-fpm AS php
+FROM php:8.2-fpm AS php
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    netcat-openbsd \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
@@ -29,16 +30,19 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/symfony
 
+# Allow Composer to run as root (safe in Docker containers)
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Copy composer files first for better caching
 COPY composer.json composer.lock ./
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-autoloader --no-scripts --no-progress --no-interaction
+RUN composer install --no-dev --no-autoloader --no-scripts --no-progress --no-interaction
 
 # Copy application files
 COPY . .
 
 # Run composer install again with full dependencies
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --no-interaction && \
-    COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize
+RUN composer install --no-dev --no-progress --no-interaction && \
+    composer dump-autoload --optimize
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/symfony/var /var/www/symfony/public
@@ -49,8 +53,8 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/symfony.ini
 # Stage 2: Nginx
 FROM nginx:mainline-alpine AS nginx
 
-# Install supervisor to run both services
-RUN apk add --no-cache supervisor
+# Install supervisor and netcat for health checks
+RUN apk add --no-cache supervisor netcat-openbsd
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
