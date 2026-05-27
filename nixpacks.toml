@@ -5,4 +5,4 @@ nixPkgs = ["php82", "php82Packages.composer"]
 cmds = ["composer install --no-dev --optimize-autoloader"]
 
 [start]
-cmd = "frankenphp run --config /app/Caddyfile"
+cmd = "php bin/console cache:clear --env=prod && frankenphp run --config Caddyfile"
