@@ -31,14 +31,14 @@ WORKDIR /var/www/symfony
 
 # Copy composer files first for better caching
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-autoloader --no-scripts --no-progress --no-interaction
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-autoloader --no-scripts --no-progress --no-interaction
 
 # Copy application files
 COPY . .
 
 # Run composer install again with full dependencies
-RUN composer install --no-dev --no-progress --no-interaction && \
-    composer dump-autoload --optimize
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --no-interaction && \
+    COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/symfony/var /var/www/symfony/public
