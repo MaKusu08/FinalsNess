@@ -1,11 +1,12 @@
-# Environment files
+# IMPORTANT: Include .env file first!
+!.env
+!.env.prod
+
+# Environment files - ignore only local/dev versions
 .env.local
 .env.*.local
 .env.dev
 .env.prod.local
-
-# Keep .env for build (but don't commit secrets to git)
-!.env
 
 # Version control
 .git/
